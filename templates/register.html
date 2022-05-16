@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadastro</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../static/css/all.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="../static/css/icheck-bootstrap.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../static/css/adminlte.css">
+</head>
+<body class="hold-transition register-page">
+<div class="register-box">
+
+  <div class="card">
+    <div class="card-body register-card-body">
+      <p class="login-box-msg">Registre-se agora</p>
+
+      <form action="../../index.html" method="post">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" name="nome" placeholder="Nome">
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" name="endereco" placeholder="Rua">
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" name="Numero" placeholder="Numero">
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" name="bairro" placeholder="Bairro">
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" name="cidade" placeholder="Cidade">
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" name="estado" placeholder="Estado">
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" name="fone" placeholder="Telefone">
+        </div>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" name="email" placeholder="Email">
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" name="senha" placeholder="Senha">
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" name="senha2" placeholder="Repita a senha">
+        </div>
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+      <a href="{{ url_for('login') }}" class="text-center">Ja sou cadastrado</a>
+      <br>
+      <a href="{{ url_for('index')}}" class="text-center">Voltar para página inicial</a>
+    </div>
+    <!-- /.form-box -->
+  </div><!-- /.card -->
+</div>
+<!-- /.register-box -->
+
+<!-- jQuery -->
+<script src="../static/js/jquery.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../static/js/bootstrap.bundle.js"></script>
+<!-- AdminLTE App -->
+<script src="../static/js/adminlte.js"></script>
+</body>
+</html>
