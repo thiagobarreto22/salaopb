@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
-from werkzeug.utils import genereate_password_hash, check_password_hash
+from werkzeug.security import  check_password_hash, generate_password_hash
 
 engine = create_engine("sqlite:///server.db")
 connection = engine.connect()
@@ -64,7 +64,7 @@ class Usuarios(Base):
         self.fone = fone
         self.cpf = cpf
         self.email = email
-        self.senha = genereate_password_hash(senha)
+        self.senha = generate_password_hash(senha)
 
     def inserir(
                     nome,
