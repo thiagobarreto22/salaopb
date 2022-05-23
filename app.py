@@ -76,7 +76,13 @@ def cadastro():
 
 @app.route('/dashboard', methods=["GET", "POST"])
 def dashboard():
-    return render_template('dashboard.html')
+    email = request.form.get('email')
+    senha = request.form.get('senha')
+    id_usuario = Usuarios.consulta_email(email)
+    if senha == Usuarios.verifica_senha(id_usuario):
+        return render_template('dashboard.html')
+    else:
+        return render_template('index.html')
 
 
 @app.route('/calendar', methods=["GET", "POST"])
