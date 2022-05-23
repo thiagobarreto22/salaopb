@@ -4,7 +4,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-from model import Inserir
+from model import Usuarios
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '12345'
@@ -59,7 +59,7 @@ def cadastro():
         email = request.form.get('email')
         senha = request.form.get('senha')
 
-        Inserir(
+        Usuarios.inserir(
                 nome,
                 rua,
                 numero,
@@ -71,7 +71,7 @@ def cadastro():
                 email,
                 senha
                 )
-    return redirect('/')
+    return redirect('/dashboard')
 
 
 @app.route('/dashboard', methods=["GET", "POST"])
@@ -79,9 +79,13 @@ def dashboard():
     return render_template('dashboard.html')
 
 
+@app.route('/calendar', methods=["GET", "POST"])
+def calendar():
+    return render_template('calendar.html')
+
+
 def init_app(app):
     login_manager.init_app(app)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+app.run(debug=True)

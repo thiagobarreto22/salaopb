@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
+from werkzeug.utils import genereate_password_hash, check_password_hash
 
 engine = create_engine("sqlite:///server.db")
 connection = engine.connect()
@@ -63,42 +64,42 @@ class Usuarios(Base):
         self.fone = fone
         self.cpf = cpf
         self.email = email
-        self.senha = senha
+        self.senha = genereate_password_hash(senha)
 
+    def inserir(
+                    nome,
+                    rua,
+                    numero,
+                    bairro,
+                    cidade,
+                    estado,
+                    fone,
+                    cpf,
+                    email,
+                    senha
+                        ):
+        usuario = Usuarios(
+                    nome,
+                    rua,
+                    numero,
+                    bairro,
+                    cidade,
+                    estado,
+                    fone,
+                    cpf,
+                    email,
+                    senha)
+        session.add(usuario)
+        session.commit()
 
-def Inserir(
-                nome,
-                rua,
-                numero,
-                bairro,
-                cidade,
-                estado,
-                fone,
-                cpf,
-                email,
-                senha
-                    ):
-    usuario = Usuarios(
-                nome,
-                rua,
-                numero,
-                bairro,
-                cidade,
-                estado,
-                fone,
-                cpf,
-                email,
-                senha)
-    session.add(usuario)
-    session.commit()
+    def consulta_usuario(id):
+        Consultausuario = session.query(Usuarios).get(id)
+        return Consultausuario
 
+    def consulta_email(email):
+        retorno = session.query(Usuarios).filter(Usuarios.email == email)
+        print(retorno.id)
+        return retorno
 
-def ConsultaUsuario(id):
-    Consultausuario = session.query(Usuarios).get(id)
-    return Consultausuario
-
-
-def ConsultaEmail(email):
-    retorno = session.query(Usuarios).filter(Usuarios.email == email)
-    print(retorno.id)
-    return retorno
+    def verifica_senha(self, senha):
+        return check_password_hash(self.senha, senha)

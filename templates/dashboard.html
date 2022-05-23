@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Espaço Paula barros | Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -86,7 +86,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="" class="img-circle elevation-2" alt="User Image">
+          <!-- <img src="" class="img-circle elevation-2" alt="User Image"> -->
         </div>
         <div class="info">
           <a href="#" class="d-block">Usuario</a>
@@ -140,11 +140,10 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="{{url_for('calendar')}}" class="nav-link">
+              <i class="nav-icon fas fa-calendar-alt"></i>
               <p>
-                Widgets
-                <span class="right badge badge-danger">New</span>
+                Calendario
               </p>
             </a>
           </li>
@@ -402,12 +401,12 @@
               <div class="inner">
                 <h3>150</h3>
 
-                <p>New Orders</p>
+                <p>Novos pedidos</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer">Mais Informações<i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -417,12 +416,12 @@
               <div class="inner">
                 <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-                <p>Bounce Rate</p>
+                <p></p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer">Mais Informações<i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -434,14 +433,13 @@
           <section class="col-lg-7 connectedSortable">
             <!-- Custom tabs (Charts with tabs)-->
             <!-- /.card -->
-
             <!-- Calendar -->
             <div class="card bg-gradient-success">
               <div class="card-header border-0">
 
                 <h3 class="card-title">
                   <i class="far fa-calendar-alt"></i>
-                  Calendar
+                  Calendario
                 </h3>
                 <!-- tools card -->
                 <div class="card-tools">
@@ -451,10 +449,10 @@
                       <i class="fas fa-bars"></i>
                     </button>
                     <div class="dropdown-menu" role="menu">
-                      <a href="#" class="dropdown-item">Add new event</a>
-                      <a href="#" class="dropdown-item">Clear events</a>
+                      <a href="#" class="dropdown-item">Adicionar</a>
+                      <a href="#" class="dropdown-item">Limpar</a>
                       <div class="dropdown-divider"></div>
-                      <a href="#" class="dropdown-item">View calendar</a>
+                      <a href="#" class="dropdown-item">Ver calendario</a>
                     </div>
                   </div>
                   <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
@@ -484,7 +482,7 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    <strong>Copyright &copy; 2022 Espaço Paula barros.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 3.1.0-rc

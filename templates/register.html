@@ -21,15 +21,15 @@
     <div class="card-body register-card-body">
       <p class="login-box-msg">Registre-se agora</p>
 
-      <form action="../../index.html" method="post">
+      <form action="{{ url_for ('cadastro')}}" method="post">
         <div class="input-group mb-3">
           <input type="text" class="form-control" name="nome" placeholder="Nome">
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="endereco" placeholder="Rua">
+          <input type="text" class="form-control" name="rua" placeholder="Rua">
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="Numero" placeholder="Numero">
+          <input type="text" class="form-control" name="numero" placeholder="Numero">
         </div>
         <div class="input-group mb-3">
           <input type="text" class="form-control" name="bairro" placeholder="Bairro">
@@ -68,7 +68,9 @@
   </div><!-- /.card -->
 </div>
 <!-- /.register-box -->
-
+<script>
+  
+</script>
 <!-- jQuery -->
 <script src="../static/js/jquery.js"></script>
 <!-- Bootstrap 4 -->
