@@ -8,6 +8,7 @@ from model import Usuarios
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '12345'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///server.db'
 Bootstrap(app)
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -34,6 +35,20 @@ def index():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+        teste_email = Usuarios.consulta_email(email)
+        teste_usuario = Usuarios.consulta_usuario(teste_email.id)
+        if check_password_hash(senha, teste_usuario.senha):
+            print("passou")
+        else:
+            print('não passou')
+            return render_template('index.html')
+        #teste_senha = Usuarios.verifica_senha(teste_usuario.id, senha)
+        #print(teste_senha.senha)
+        #if email == teste_email.email
+        #print(teste_email.email)
     return render_template('login-v2.html')
 
 
@@ -77,11 +92,14 @@ def cadastro():
 @app.route('/dashboard', methods=["GET", "POST"])
 def dashboard():
     email = request.form.get('email')
+    print(email)
     senha = request.form.get('senha')
     id_usuario = Usuarios.consulta_email(email)
-    if senha == Usuarios.verifica_senha(id_usuario):
+    if senha == Usuarios.verifica_senha(id_usuario, senha):
+        print('passou')
         return render_template('dashboard.html')
     else:
+        print('não passou')
         return render_template('index.html')
 
 

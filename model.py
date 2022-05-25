@@ -93,13 +93,12 @@ class Usuarios(Base):
         session.commit()
 
     def consulta_usuario(id):
-        Consultausuario = session.query(Usuarios).get(id)
-        return Consultausuario
+        return session.query(Usuarios).filter(Usuarios.id == id).first()
 
-    def consulta_email(email):
-        retorno = session.query(Usuarios).filter(Usuarios.email == email)
-        print(retorno.id)
-        return retorno
+    def consulta_email(email): 
+        return session.query(Usuarios).filter(Usuarios.email == email).first()
 
-    def verifica_senha(self, senha):
-        return check_password_hash(self.senha, senha)
+    def verifica_senha(self, id, senha):
+        consulta_id = Usuarios.consulta_usuario(id)
+        if check_password_hash(senha, consulta_id):
+            return True
