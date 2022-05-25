@@ -1,7 +1,6 @@
 
 from flask import Flask, render_template, redirect, request, flash
 from flask_login import LoginManager, login_user, logout_user, login_required
-from werkzeug.security import check_password_hash, generate_password_hash
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from model import Usuarios

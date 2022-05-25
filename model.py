@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
-from werkzeug.utils import genereate_password_hash, check_password_hash
+from werkzeug.security import genereate_password_hash, check_password_hash
 
 engine = create_engine("sqlite:///server.db")
 connection = engine.connect()
