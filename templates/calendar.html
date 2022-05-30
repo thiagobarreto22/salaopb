@@ -972,7 +972,9 @@
         // is the "remove after drop" checkbox checked?
           // if so, remove the element from the "Draggable Events" list
           info.draggedEl.parentNode.removeChild(info.draggedEl);
-          alert('Confirmar data?')
+          if (alert('Confirmar data?')){
+            
+          }
       }
     });
 
