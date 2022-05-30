@@ -1,25 +1,30 @@
 
-from flask import Flask, render_template, redirect, request, flash
-from flask_login import LoginManager, login_user, logout_user, login_required
-from flask_bootstrap import Bootstrap
-from flask_sqlalchemy import SQLAlchemy
-from model import Usuarios
+from flask import Flask, render_template, request
+from flask_login import LoginManager, login_required
+from werkzeug.security import check_password_hash, generate_password_hash
+from model import db, Usuarios
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '12345'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///server.db'
-Bootstrap(app)
-db = SQLAlchemy(app)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'teste'
+# db = SQLAlchemy(app)
+db.init_app(app)
 login_manager = LoginManager(app)
 
 
-class Login:
-    id = ...
-    user = ...
-    password = ...
+@app.before_first_request
+def create_db():
+    db.create_all()
 
-    def get_id(self, id):
-        return id
+# class Login:
+#     id = ...
+#     user = ...
+#     password = ...
+
+#     def get_id(self, id):
+#         return id
 
 
 @login_manager.user_loader
@@ -34,24 +39,28 @@ def index():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
+    if request.method == 'GET':
+        return render_template('login-v2.html')
+    else:
         email = request.form.get('email')
         senha = request.form.get('senha')
-        teste_email = Usuarios.consulta_email(email)
-        teste_usuario = Usuarios.consulta_usuario(teste_email.id)
-        if check_password_hash(senha, teste_usuario.senha):
-            print("passou")
+        novos_usuarios = Usuarios.query.filter_by().count()
+        usuario = Usuarios.query.filter_by(email=email).first()
+        print(usuario)
+        if usuario.email == 'admin@admin':
+            print(novos_usuarios)
+            return render_template('dashboard_gerencial.html', novos_usuarios=novos_usuarios)
+        if usuario and check_password_hash(usuario.senha, senha):
+            return render_template('dashboard.html')
         else:
-            print('não passou')
-            return render_template('index.html')
-        #teste_senha = Usuarios.verifica_senha(teste_usuario.id, senha)
-        #print(teste_senha.senha)
-        #if email == teste_email.email
-        #print(teste_email.email)
+            return render_template('login-v2.html')
+
+
+@app.route('/logout')
+# @login_required
+def logout():
+    # logout_user()
     return render_template('login-v2.html')
-
-
-@app.route('/logout', methods=["GET", "POST"])
 
 
 @app.route('/cadastrar')
@@ -61,45 +70,52 @@ def cadastrar():
 
 @app.route('/cadastro', methods=["GET", "POST"])
 def cadastro():
-    if request.method == "POST":
-        nome = request.form.get('nome')
-        rua = request.form.get('rua')
-        numero = request.form.get('numero')
-        bairro = request.form.get('bairro')
-        cidade = request.form.get('cidade')
-        estado = request.form.get('estado')
-        fone = request.form.get('fone')
-        cpf = request.form.get('cpf')
-        email = request.form.get('email')
-        senha = request.form.get('senha')
+    (
+        nome,
+        rua,
+        numero,
+        bairro,
+        cidade,
+        estado,
+        fone,
+        email,
+        senha
+    ) = (
+        request.form.get('nome'),
+        request.form.get('rua'),
+        request.form.get('numero'),
+        request.form.get('bairro'),
+        request.form.get('cidade'),
+        request.form.get('estado'),
+        request.form.get('fone'),
+        request.form.get('email'),
+        generate_password_hash(request.form.get('senha')),
+        )
+    usuario = Usuarios()
+    usuario.nome = nome
+    usuario.rua = rua
+    usuario.numero = numero
+    usuario.bairro = bairro
+    usuario.cidade = cidade
+    usuario.estado = estado
+    usuario.fone = fone
+    usuario.email = email
+    usuario.senha = senha
+    usuario.save()
+    return render_template('login-v2.html')
 
-        Usuarios.inserir(
-                nome,
-                rua,
-                numero,
-                bairro,
-                cidade,
-                estado,
-                fone,
-                cpf,
-                email,
-                senha
-                )
-    return redirect('/dashboard')
+
+@app.route('/dashboard_gerencial', methods=["GET", "POST"])
+def dashboard_gerencial():
+    return render_template('dashboard_gerencial.html')
 
 
 @app.route('/dashboard', methods=["GET", "POST"])
 def dashboard():
-    email = request.form.get('email')
-    print(email)
-    senha = request.form.get('senha')
-    id_usuario = Usuarios.consulta_email(email)
-    if senha == Usuarios.verifica_senha(id_usuario, senha):
-        print('passou')
-        return render_template('dashboard.html')
-    else:
-        print('não passou')
-        return render_template('index.html')
+    return render_template('dashboard.html')
+    # else:
+    #     print('não passou')
+    #     return render_template('index.html')
 
 
 @app.route('/calendar', methods=["GET", "POST"])
@@ -111,4 +127,5 @@ def init_app(app):
     login_manager.init_app(app)
 
 
-app.run(debug=True)
+if __name__ == "main":
+    app.run(debug=True)

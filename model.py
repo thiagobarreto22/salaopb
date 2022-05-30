@@ -1,104 +1,33 @@
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import Session
-from sqlalchemy.ext.declarative import declarative_base
-from werkzeug.security import  check_password_hash, generate_password_hash
-
-engine = create_engine("sqlite:///server.db")
-connection = engine.connect()
+from flask_sqlalchemy import SQLAlchemy
 
 
-session = Session()
-
-Base = declarative_base(engine)
+db = SQLAlchemy()
 
 
-class CriaBanco():
-    connection.execute("""CREATE TABLE IF NOT EXISTS USUARIOS (
-                            ID INTEGER PRIMARY KEY,
-                            NOME VARCHAR(255),
-                            RUA VARCHAR(255),
-                            NUMERO VARCHAR(255),
-                            BAIRRO VARCHAR(255),
-                            CIDADE VARCHAR(255),
-                            ESTADO VARCHAR(255),
-                            FONE VARCHAR(255),
-                            CPF VARCHAR(255),
-                            EMAIL VARCHAR(255),
-                            SENHA VARCHAR(255))
-                        """)
-
-
-class Usuarios(Base):
+class Usuarios(db.Model):
     __tablename__ = 'USUARIOS'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    nome = Column(String, nullable=False)
-    rua = Column(String, nullable=False)
-    numero = Column(String, nullable=False)
-    bairro = Column(String, nullable=False)
-    cidade = Column(String, nullable=False)
-    estado = Column(String, nullable=False)
-    fone = Column(String, nullable=False)
-    cpf = Column(String, nullable=False)
-    email = Column(String, nullable=False)
-    senha = Column(String, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(length= 255), nullable=False)
+    rua = db.Column(db.String(length= 255), nullable=False)
+    numero = db.Column(db.String(length= 10), nullable=False)
+    bairro = db.Column(db.String(length= 255), nullable=False)
+    cidade = db.Column(db.String(length= 255), nullable=False)
+    estado = db.Column(db.String(length= 255), nullable=False)
+    fone = db.Column(db.String(length= 50), nullable=False)
+    email = db.Column(db.String(length= 255), nullable=False)
+    senha = db.Column(db.String(length= 200), nullable=False)
 
-    def __init__(
-        self,
-        nome,
-        rua,
-        numero,
-        bairro,
-        cidade,
-        estado,
-        fone,
-        cpf,
-        email,
-        senha
-                ):
-        self.nome = nome
-        self.rua = rua
-        self.numero = numero
-        self.bairro = bairro
-        self.cidade = cidade
-        self.estado = estado
-        self.fone = fone
-        self.cpf = cpf
-        self.email = email
-        self.senha = generate_password_hash(senha)
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
-    def inserir(
-                    nome,
-                    rua,
-                    numero,
-                    bairro,
-                    cidade,
-                    estado,
-                    fone,
-                    cpf,
-                    email,
-                    senha
-                        ):
-        usuario = Usuarios(
-                    nome,
-                    rua,
-                    numero,
-                    bairro,
-                    cidade,
-                    estado,
-                    fone,
-                    cpf,
-                    email,
-                    senha)
-        session.add(usuario)
-        session.commit()
+    # def consulta_usuario(id):
+    #     return session.query(Usuarios).filter(Usuarios.id == id).first()
 
-    def consulta_usuario(id):
-        return session.query(Usuarios).filter(Usuarios.id == id).first()
+    # def consulta_email(email): 
+    #     return session.query(Usuarios).filter(Usuarios.email == email).first()
 
-    def consulta_email(email): 
-        return session.query(Usuarios).filter(Usuarios.email == email).first()
-
-    def verifica_senha(self, id, senha):
-        consulta_id = Usuarios.consulta_usuario(id)
-        if check_password_hash(senha, consulta_id):
-            return True
+    # def verifica_senha(self, id, senha):
+    #     consulta_id = Usuarios.consulta_usuario(id)
+    #     if check_password_hash(senha, consulta_id):
+    #         return True

@@ -37,7 +37,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{url_for('dashboard')}}" class="nav-link">Inicio</a>
+        <a href="{{url_for('dashboard_gerencial')}}" class="nav-link">Inicio</a>
       </li>
     </ul>
 
@@ -75,7 +75,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{url_for('dashboard')}}" class="brand-link">
+    <a href="{{url_for('dashboard_gerencial')}}" class="brand-link">
       <span class="brand-text font-weight-light">Espaço Paula Barros</span>
     </a>
 
@@ -763,14 +763,27 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>1</h3>
+                <h3>150</h3>
 
-                <p>Seus agendamentos</p>
+                <p>Novos agendamentos</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
               <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{{ novos_usuarios }}</h3>
+
+                <p>Usuarios registrados</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
             </div>
           </div>
           <!-- ./col -->
