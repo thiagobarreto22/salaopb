@@ -1,8 +1,10 @@
 
-from flask import Flask, render_template, request
-from flask_login import LoginManager, login_required
+from datetime import datetime
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask_login import LoginManager
 from werkzeug.security import check_password_hash, generate_password_hash
-from model import db, Usuarios
+from model import db, Usuarios, Agendamento
+from flask_login import current_user
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '12345'
@@ -17,14 +19,6 @@ login_manager = LoginManager(app)
 @app.before_first_request
 def create_db():
     db.create_all()
-
-# class Login:
-#     id = ...
-#     user = ...
-#     password = ...
-
-#     def get_id(self, id):
-#         return id
 
 
 @login_manager.user_loader
@@ -46,12 +40,15 @@ def login():
         senha = request.form.get('senha')
         novos_usuarios = Usuarios.query.filter_by().count()
         usuario = Usuarios.query.filter_by(email=email).first()
+        session["usuario"] = usuario.id
         print(usuario)
         if usuario.email == 'admin@admin':
             print(novos_usuarios)
-            return render_template('dashboard_gerencial.html', novos_usuarios=novos_usuarios)
+            return redirect(
+                'dashboard_gerencial'
+                )
         if usuario and check_password_hash(usuario.senha, senha):
-            return render_template('dashboard.html')
+            return redirect(url_for('dashboard', usuario_id=usuario.id))
         else:
             return render_template('login-v2.html')
 
@@ -107,12 +104,21 @@ def cadastro():
 
 @app.route('/dashboard_gerencial', methods=["GET", "POST"])
 def dashboard_gerencial():
-    return render_template('dashboard_gerencial.html')
+    agendamentos = Agendamento.query.filter_by().count()
+    novos_usuarios = Usuarios.query.filter_by().count()
+    print(agendamentos)
+    return render_template('dashboard_gerencial.html',
+                           novos_usuarios=novos_usuarios,
+                           agendamentos=agendamentos)
 
 
-@app.route('/dashboard', methods=["GET", "POST"])
+@app.route('/dashboard/', methods=["GET", "POST"])
 def dashboard():
-    return render_template('dashboard.html')
+    if 'usuario' in session:
+        usuario = session['usuario']
+        print(usuario)
+        agendamentos = Agendamento.query.filter_by(id_usuario=usuario).count()
+        return render_template('dashboard.html', agendamentos=agendamentos)
     # else:
     #     print('não passou')
     #     return render_template('index.html')
@@ -120,7 +126,71 @@ def dashboard():
 
 @app.route('/calendar', methods=["GET", "POST"])
 def calendar():
-    return render_template('calendar.html')
+    if 'usuario' in session:
+        usuario = Usuarios.query.filter_by(id=session['usuario']).first()
+        if usuario.email == 'admin@admin':
+            return render_template('calendar_gerencial.html')
+        else:
+            return render_template('calendar.html')
+
+
+@app.route('/criar_agendamento', methods=["GET", "POST"])
+def criar_agendamento():
+    if request.method == 'GET':
+        return render_template('agendamentos.html')
+    else:
+        (
+            nome,
+            email,
+            sobrenome,
+            telefone,
+            dt_agendamento,
+            hr_agendamento,
+            cabeleleiro,
+        ) = (
+            request.form.get('nome'),
+            request.form.get('email'),
+            request.form.get('sobrenome'),
+            request.form.get('telefone'),
+            request.form.get('dt_agendamento'),
+            request.form.get('hr_agendamento'),
+            request.form.get('cabeleleiro')
+            )
+        agendamento = Agendamento()
+        usuario = Usuarios.query.filter_by(email=email).first()
+        agendamento.id_usuario = usuario.id
+        agendamento.nome = f'{nome} {sobrenome}'
+        agendamento.email = email
+        agendamento.sobrenome = sobrenome
+        agendamento.fone = telefone
+        agendamento.data_agendamento = dt_agendamento
+        agendamento.horario_agendamento = hr_agendamento
+        agendamento.cabeleleiro = cabeleleiro
+        agendamento.data_registro = datetime.now()
+        agendamento.save()
+        agendamentos = Agendamento.query.filter_by(email=email).count()
+        print(agendamentos)
+        return render_template('dashboard.html', agendamentos=agendamentos)
+
+
+@app.route('/lista_usuarios', methods=["GET", "POST"])
+def usuarios():
+    usuarios = Usuarios.query.filter_by().all()
+    return render_template('usuarios.html', usuarios=usuarios)
+
+
+@app.route('/lista_agendamentos', methods=["GET", "POST"])
+def lista_agendamentos():
+    if 'usuario' in session:
+        usuario = session['usuario']
+        lista_agendamentos = Agendamento.query.filter_by(id_usuario=usuario).all()
+        return render_template('lista_agendamentos.html', lista_agendamentos=lista_agendamentos)
+
+
+@app.route('/lista_agendamentos_gerencial', methods=["GET", "POST"])
+def lista_agendamentos_gerencial():
+    lista_agendamentos = Agendamento.query.filter_by().all()
+    return render_template('lista_agendamentos.html', lista_agendamentos=lista_agendamentos)
 
 
 def init_app(app):
