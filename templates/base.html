@@ -35,7 +35,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{url_for('dashboard')}}" class="nav-link">Home</a>
+        <a href="{{url_for('dashboard_gerencial')}}" class="nav-link">Home</a>
       </li>
       <!-- <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -75,7 +75,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{url_for('index')}}" class="brand-link">
+    <a href="{{url_for('dashboard_gerencial')}}" class="brand-link">
       <img src="" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Espaço Paula Barros</span>
     </a>
@@ -108,7 +108,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{url_for('dashboard')}}" class="nav-link active">
+                <a href="{{url_for('dashboard_gerencial')}}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dashboard </p>
                 </a>
@@ -125,15 +125,26 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{url_for('criar_agendamento')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Criar agendamento</p>
-                </a>
-              </li>
-              <li class="nav-item">
                 <a href="{{url_for('lista_agendamentos')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ver Agendamentos</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Usuarios
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{url_for('usuarios')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Usuarios</p>
                 </a>
               </li>
             </ul>
