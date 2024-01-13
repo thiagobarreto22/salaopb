@@ -15,6 +15,8 @@ app.config['SECRET_KEY'] = 'teste'
 db.init_app(app)
 login_manager = LoginManager(app)
 
+# teste de alt
+
 
 @app.before_first_request
 def create_db():
